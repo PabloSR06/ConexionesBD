@@ -1,0 +1,36 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        
+        <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+
+        <property name="connection.url">jdbc:mysql://localhost/bdHoteles5</property>
+
+        <property name="connection.username">root</property>
+
+        <property name="connection.password"></property>
+
+        <!-- Pool de conexiones JDBC (se usa la que viene por defecto) -->
+        <property name="connection.pool_size">1</property>
+
+        <!-- Dialecto SQL -->
+        <property name="dialect">org.hibernate.dialect.MySQL5InnoDBDialect</property>
+
+        <!-- Muestra en la consola todas las consultas SQL ejecutadas -->
+        <property name="show_sql">true</property>
+
+        <property name="hbm2ddl.auto">create-drop</property>
+        <!--<property name="hbm2ddl.auto">update</property>-->
+        <!-- Mapea las siguientes clases anotadas si trabajásemos con mapeo XML en lugar de class pondríamos resource -->
+        <mapping class="aed.hibernate.Clases.clientes" />
+        <mapping class="aed.hibernate.Clases.habitaciones" />
+        <mapping class="aed.hibernate.Clases.habitacionesobservaciones" />
+        <mapping class="aed.hibernate.Clases.hoteles"/>
+        <mapping class="aed.hibernate.Clases.regimenes"/>
+        <mapping class="aed.hibernate.Clases.clientes"/>
+        <mapping class="aed.hibernate.Clases.estancias"/>
+        
+
+    </session-factory>
+</hibernate-configuration>
