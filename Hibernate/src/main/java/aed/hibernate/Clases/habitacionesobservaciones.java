@@ -19,8 +19,6 @@ public class habitacionesobservaciones implements Serializable {
     @PrimaryKeyJoinColumn
     private habitaciones codHabitacionX;
     
-    
-
     @Column(length=200)
     private String observaciones;
 

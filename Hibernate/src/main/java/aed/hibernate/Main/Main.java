@@ -7,6 +7,7 @@ import java.util.Iterator;
 import org.hibernate.*;
 
 import aed.hibernate.Clases.*;
+import aed.hibernate.Query.Consultas;
 import aed.hibernate.Query.Eliminar;
 import aed.hibernate.Query.Insertar;
 //PABLO SUAREZ ROMERO
@@ -53,6 +54,7 @@ public class Main {
             habitacionesobservaciones ob1 = new habitacionesobservaciones();
             habitaciones hab2 = sesion.get(habitaciones.class, i+1);
             ob1.setCodHabitacionX(hab2);
+            ob1.setCodhabitacion(i+1);
             ob1.setObservaciones("texto " + i);
             
             sesion.save(ob1);
@@ -99,6 +101,9 @@ public class Main {
             sesion.save(est);
             sesion.getTransaction().commit();
 		}
+        
+        Consultas.consulta_observacion(sesion, 1);
+        Consultas.consulta_1(sesion);
         sesion.close();
         
         

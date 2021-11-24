@@ -87,4 +87,13 @@ public class habitaciones implements Serializable {
 	public void setActiva(int activa) {
 		this.activa = activa;
 	}
+
+	public habitacionesobservaciones getHabitacionesobservaciones() {
+		return habitacionesobservaciones;
+	}
+
+	public void setHabitacionesobservaciones(habitacionesobservaciones habitacionesobservaciones) {
+		this.habitacionesobservaciones = habitacionesobservaciones;
+	}
+	
 }

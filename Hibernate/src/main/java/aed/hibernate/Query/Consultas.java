@@ -12,31 +12,65 @@ public class Consultas {
 		Session sesion = HibernateUtil.getSessionFactory().openSession();
 		sesion.beginTransaction();
 
-		consulta_observacion(sesion, 1);
+		consulta_1(sesion);
 
 	}
 
 	public static void consulta_1(Session sesion) {
-		try {
-			String sql = ("from Persona per inner join per.libros");
+		//try {
+			String sql = ("from habitaciones");
 
 			Query q = sesion.createQuery(sql);
 
-//			for (habitaciones c : habit) {
-//				System.out.println("\n//Entrada//\n");
-//				
-//				System.out.println();
-//				System.out.println("//Salida//");
-//
-//			}
+			List<habitaciones> habitaciones = q.getResultList();
 
-		} catch (Exception e) {
-			System.err.println("No se ha podido hacer una consulta 1");
-		}
+			System.out.format("| %-13s | %-10s | %-13s | %-8s | %-9s | %-6s | %-20s |%n", "CodHabitacion", "CodHotel",
+					"NumHabitacion", "Capacidad", "PrecioDia", "Activa", "Observaciones");
+//			for (habitaciones c : habitaciones) {
+//				try {
+//					if (c.getHabitacionesobservaciones().getObservaciones() == null) {
+//
+//					} else {
+//						System.out.format("| %-13s | %-10s | %-13s | %-9s | %-9s | %-6s | %-20s |%n",
+//								c.getCodhabitacion(), c.getCodHotel().getCodHotel(), c.getNumHabitacion(),
+//								c.getCapacidad(), c.getPreciodia(), c.getActiva(),
+//								c.getHabitacionesobservaciones().getObservaciones());
+//					}
+//
+//				} catch (Exception e) {
+//					System.out.format("| %-13s | %-10s | %-13s | %-9s | %-9s | %-6s | %-20s |%n", c.getCodhabitacion(),
+//							c.getCodHotel().getCodHotel(), c.getNumHabitacion(), c.getCapacidad(), c.getPreciodia(),
+//							c.getActiva(), "Sin Observaciones");
+//				}
+//			}
+//			System.out.println("//Salida//");
+//		} catch (Exception e) {
+//			System.err.println("No se ha podido hacer la consulta 1");
+//		}
+			for (habitaciones c : habitaciones) {
+                try {
+                    if (c.getHabitacionesobservaciones().getObservaciones() == null) {
+
+                    } else {
+                        System.out.println("Cod Habitacion: " + c.getCodhabitacion() + "  " + "Num Habitacion: "
+                                + c.getNumHabitacion() + "  " + "CodHotel: " + c.getCodHotel().getCodHotel() + "  "
+                                + "Capacidad: " + c.getCapacidad() + "  " + " Precio dia: " + c.getPreciodia()
+                                + "  " + "Activa: " + c.getActiva() + "  " + " Observacion: "
+                                + c.getHabitacionesobservaciones().getObservaciones());
+                    }
+                } catch (Exception e) {
+                    System.out.println("Cod Habitacion: " + c.getCodhabitacion() + "  " + "Num Habitacion: "
+                            + c.getNumHabitacion() + "  " + "CodHotel: " + c.getCodHotel().getCodHotel() + "  "
+                            + "Capacidad: " + c.getCapacidad() + "  " + " Precio dia: " + c.getPreciodia() + " || "
+                            + "Activa: " + c.getActiva());
+                }
+                System.out.println("-------------------------------------------------------------------------------------------------------------------------------------");
+			}
+		
 	}
 
 	public static void consulta_2(Session sesion) {
-		
+
 	}
 
 	public static void consulta_todas_habitaciones(Session sesion) {
@@ -186,7 +220,7 @@ public class Consultas {
 			System.err.println("No se ha podido hacer una consulta de regimen");
 		}
 	}
-	
+
 	public static void consulta_observacion(Session sesion, int codHabitacion) {
 		try {
 			String sql = ("from habitacionesobservaciones obs WHERE obs.codhabitacion = :codhabitacion");
