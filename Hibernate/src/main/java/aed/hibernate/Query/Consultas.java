@@ -1,5 +1,6 @@
 package aed.hibernate.Query;
 
+import java.util.Iterator;
 import java.util.List;
 import javax.persistence.Query;
 import org.hibernate.Session;
@@ -17,7 +18,7 @@ public class Consultas {
 	}
 
 	public static void consulta_1(Session sesion) {
-		//try {
+		try {
 			String sql = ("from habitaciones");
 
 			Query q = sesion.createQuery(sql);
@@ -26,51 +27,146 @@ public class Consultas {
 
 			System.out.format("| %-13s | %-10s | %-13s | %-8s | %-9s | %-6s | %-20s |%n", "CodHabitacion", "CodHotel",
 					"NumHabitacion", "Capacidad", "PrecioDia", "Activa", "Observaciones");
-//			for (habitaciones c : habitaciones) {
-//				try {
-//					if (c.getHabitacionesobservaciones().getObservaciones() == null) {
-//
-//					} else {
-//						System.out.format("| %-13s | %-10s | %-13s | %-9s | %-9s | %-6s | %-20s |%n",
-//								c.getCodhabitacion(), c.getCodHotel().getCodHotel(), c.getNumHabitacion(),
-//								c.getCapacidad(), c.getPreciodia(), c.getActiva(),
-//								c.getHabitacionesobservaciones().getObservaciones());
-//					}
-//
-//				} catch (Exception e) {
-//					System.out.format("| %-13s | %-10s | %-13s | %-9s | %-9s | %-6s | %-20s |%n", c.getCodhabitacion(),
-//							c.getCodHotel().getCodHotel(), c.getNumHabitacion(), c.getCapacidad(), c.getPreciodia(),
-//							c.getActiva(), "Sin Observaciones");
-//				}
-//			}
-//			System.out.println("//Salida//");
-//		} catch (Exception e) {
-//			System.err.println("No se ha podido hacer la consulta 1");
-//		}
 			for (habitaciones c : habitaciones) {
-                try {
-                    if (c.getHabitacionesobservaciones().getObservaciones() == null) {
+				try {
+					if (c.getHabitacionesobservaciones() == null) {
+						System.out.format("| %-13s | %-10s | %-13s | %-9s | %-9s | %-6s | %-20s |%n",
+								c.getCodhabitacion(), c.getCodHotel().getCodHotel(), c.getNumHabitacion(),
+								c.getCapacidad(), c.getPreciodia(), c.getActiva(), c.getHabitacionesobservaciones());
+					} else {
+						System.out.format("| %-13s | %-10s | %-13s | %-9s | %-9s | %-6s | %-20s |%n",
+								c.getCodhabitacion(), c.getCodHotel().getCodHotel(), c.getNumHabitacion(),
+								c.getCapacidad(), c.getPreciodia(), c.getActiva(),
+								c.getHabitacionesobservaciones().getObservaciones());
+					}
 
-                    } else {
-                        System.out.println("Cod Habitacion: " + c.getCodhabitacion() + "  " + "Num Habitacion: "
-                                + c.getNumHabitacion() + "  " + "CodHotel: " + c.getCodHotel().getCodHotel() + "  "
-                                + "Capacidad: " + c.getCapacidad() + "  " + " Precio dia: " + c.getPreciodia()
-                                + "  " + "Activa: " + c.getActiva() + "  " + " Observacion: "
-                                + c.getHabitacionesobservaciones().getObservaciones());
-                    }
-                } catch (Exception e) {
-                    System.out.println("Cod Habitacion: " + c.getCodhabitacion() + "  " + "Num Habitacion: "
-                            + c.getNumHabitacion() + "  " + "CodHotel: " + c.getCodHotel().getCodHotel() + "  "
-                            + "Capacidad: " + c.getCapacidad() + "  " + " Precio dia: " + c.getPreciodia() + " || "
-                            + "Activa: " + c.getActiva());
-                }
-                System.out.println("-------------------------------------------------------------------------------------------------------------------------------------");
+				} catch (Exception e) {
+					System.err.println(e.getMessage());
+				}
 			}
-		
+			System.out.println("//Salida//");
+		} catch (Exception e) {
+			System.err.println("No se ha podido hacer la consulta 1");
+		}
+
 	}
 
 	public static void consulta_2(Session sesion) {
+		try {
+			String sql = ("from habitaciones");
+			String sql1 = ("from estancias");
 
+			Query q = sesion.createQuery(sql);
+			Query q1 = sesion.createQuery(sql1);
+
+			List<habitaciones> habit = q.getResultList();
+			List<estancias> esta = q1.getResultList();
+
+			if (habit.isEmpty()) {
+				System.out.println("No hay habitaciones");
+			} else {
+				for (habitaciones c : habit) {
+					System.out.println();
+					System.out.println("\n//Habitacion\\\n");
+					System.out.format("| %-15s | %-15s | %-15s | %-15s | %-15s | %-15s | %-15s |%n", "CodHabitacion",
+							"numHabitacion", "CodHotel", "nomHotel", "PrecioDia", "Activa", "Capacidad");
+
+					System.out.format("| %-15s | %-15s | %-15s | %-15s | %-15s | %-15s |%n", c.getCodhabitacion(),
+							c.getNumHabitacion(), c.getCodHotel().getCodHotel(), c.getCodHotel().getNomHotel(),
+							c.getPreciodia(), c.getActiva(), c.getCapacidad());
+					System.out.println();
+
+					for (estancias c1 : esta) {
+						if (c1.getCodhabitacion().getCodhabitacion() == c.getCodhabitacion()) {
+
+							System.out.println("\n//Regimen//\n");
+							System.out.format(
+									"| %-15s | %-15s | %-15s | %-15s | %-15s | %-15s | %-15s | %-15s | %-15s |%n",
+									"CodHabitacion", "FechaFin", "FechaInicio", "Ocupantes", "Pagado", "PrecioEstancia",
+									"CodDNIoNIE", "Nombre", "CodRegimen");
+
+							System.out.format(
+									"| %-15s | %-15s | %-15s | %-15s | %-15s | %-15s | %-15s | %-15s | %-15s |%n",
+									c1.getCodhabitacion().getCodhabitacion(), c1.getFechaFIN(), c1.getFechaInicio(),
+									c1.getOcupantes(), c1.getPagado(), c1.getPrecioestancia(),
+									c1.getCodDNIoNIE().getCodDNIoNIE(), c1.getCodDNIoNIE().getNombre(),
+									c1.getCodregimen().getCodregimen());
+
+						}
+					}
+				}
+			}
+
+			System.out.println("//Salida//");
+
+		} catch (Exception e) {
+			System.err.println("No se ha podido hacer la consulta 2");
+		}
+	}
+
+	public static void consulta_3(Session sesion) {
+		try {
+			String sql = ("from habitaciones");
+			String sql1 = ("from estancias");
+
+			Query q = sesion.createQuery(sql);
+			Query q1 = sesion.createQuery(sql1);
+
+			List<habitaciones> habit = q.getResultList();
+			List<estancias> esta = q1.getResultList();
+
+			if (habit.isEmpty()) {
+				System.out.println("No hay habitaciones");
+			} else {
+				for (estancias c : esta) {
+					System.out.println();
+
+					System.out.println("\n Habitacion: \n");
+					System.out.format("| %-20s| %-20s | %-20s | %-20s | %-20s |%n", "CodHabitacion", "numHabitacion",
+							"PrecioDia", "Activa", "Capacidad");
+
+					System.out.format("| %-20s| %-20s | %-20s | %-20s | %-20s |%n",
+							c.getCodhabitacion().getCodhabitacion(), c.getCodhabitacion().getNumHabitacion(),
+							c.getCodhabitacion().getPreciodia(), c.getCodhabitacion().getActiva(),
+							c.getCodhabitacion().getCapacidad());
+					System.out.println();
+
+					System.out.println("\n Hotel: \n");
+					System.out.format("| %-15s | %-15s |%n", "CodHotel", "NomHotel");
+
+					System.out.format("| %-15s | %-15s |%n", c.getCodhabitacion().getCodHotel().getCodHotel(),
+							c.getCodhabitacion().getCodHotel().getNomHotel());
+					System.out.println();
+
+					
+
+					System.out.println("\n Regimen: \n");
+					System.out.format("| %-15s | %-15s | %-15s | %-15s | %-15s | %-15s | %-15s |%n",
+							"CodHabitacion", "FechaFin", "FechaInicio", "Ocupantes", "Pagado", "PrecioEstancia",
+							"CodRegimen");
+
+					System.out.format("| %-15s | %-15s | %-15s | %-15s | %-15s | %-15s | %-15s |%n",
+							c.getCodhabitacion().getCodhabitacion(), c.getFechaFIN(), c.getFechaInicio(),
+							c.getOcupantes(), c.getPagado(), c.getPrecioestancia(), c.getCodregimen().getCodregimen());
+					
+					
+					System.out.println("\n Cliente: \n");
+					System.out.format("| %-15s | %-15s |%n", "CodDNIoNIE", "Nombre");
+					
+					System.out.format("| %-15s | %-15s |%n", c.getCodDNIoNIE().getCodDNIoNIE(),
+							c.getCodDNIoNIE().getNombre());
+					System.out.println();
+					
+					System.out.println("----------------------------------------------------------");
+
+				}
+			}
+
+			System.out.println("//Salida//");
+
+		} catch (Exception e) {
+			System.err.println("No se ha podido hacer la consulta 2");
+		}
 	}
 
 	public static void consulta_todas_habitaciones(Session sesion) {
@@ -223,7 +319,7 @@ public class Consultas {
 
 	public static void consulta_observacion(Session sesion, int codHabitacion) {
 		try {
-			String sql = ("from habitacionesobservaciones obs WHERE obs.codhabitacion = :codhabitacion");
+			String sql = ("from habitacionesobservaciones WHERE codhabitacion = :codhabitacion");
 
 			Query q = sesion.createQuery(sql);
 

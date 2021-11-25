@@ -353,7 +353,7 @@ public class Insertar {
 
 			habitaciones claveHotel = sesion.get(habitaciones.class, codHabitacion);
 
-			p1.setCodHabitacionX(claveHotel);
+			p1.setCodhabitacionX(claveHotel);
 			p1.setObservaciones(observacion);
 			sesion.save(p1);
 			sesion.getTransaction().commit();

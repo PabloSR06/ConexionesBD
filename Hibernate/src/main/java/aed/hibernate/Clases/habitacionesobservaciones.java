@@ -8,16 +8,16 @@ import org.hibernate.annotations.GenericGenerator;
 @Table(name="habitacionesobservaciones")
 public class habitacionesobservaciones implements Serializable {
 
-    @Id
-    @GeneratedValue(generator = "myForeign")
-	@GenericGenerator( name = "myForeign", strategy = "foreign",
-	parameters = {@org.hibernate.annotations.Parameter(name =
-	"property", value = "codHabitacionX")})
-    private int codhabitacion;
+	@Id
+	@GeneratedValue(generator = "fknumhabitacion")
+	@GenericGenerator(name = "fknumhabitacion", strategy = "foreign", parameters = {
+			@org.hibernate.annotations.Parameter(name = "property", value = "codhabitacionX") })
+	@Column(columnDefinition = "int(11)")
+	private int codhabitacion;
     
-    @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @PrimaryKeyJoinColumn
-    private habitaciones codHabitacionX;
+	@OneToOne(cascade = { CascadeType.ALL })
+	@PrimaryKeyJoinColumn
+	private habitaciones codhabitacionX;
     
     @Column(length=200)
     private String observaciones;
@@ -38,13 +38,13 @@ public class habitacionesobservaciones implements Serializable {
 	}
 
 
-	public habitaciones getCodHabitacionX() {
-		return codHabitacionX;
+	public habitaciones getCodhabitacionX() {
+		return codhabitacionX;
 	}
 
 
-	public void setCodHabitacionX(habitaciones codHabitacionX) {
-		this.codHabitacionX = codHabitacionX;
+	public void setCodhabitacionX(habitaciones codhabitacionX) {
+		this.codhabitacionX = codhabitacionX;
 	}
 
 
@@ -58,10 +58,4 @@ public class habitacionesobservaciones implements Serializable {
 	}
 
 
-    
-
-
-
-
-    
 }

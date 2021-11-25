@@ -2,6 +2,9 @@ package aed.hibernate.Clases;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+
+import org.hibernate.action.internal.OrphanRemovalAction;
+
 import javax.persistence.*;
 //PABLO SUAREZ ROMERO
 
@@ -15,10 +18,9 @@ public class habitaciones implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int codhabitacion;
 	
-	@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+	@OneToOne(mappedBy = "codhabitacionX", cascade = CascadeType.ALL, orphanRemoval = true)
 	@PrimaryKeyJoinColumn
 	private habitacionesobservaciones habitacionesobservaciones;
-	
 
 	@ManyToOne
 	@JoinColumn(name = "codHotel")
@@ -46,6 +48,14 @@ public class habitaciones implements Serializable {
 
 	public void setCodhabitacion(int codhabitacion) {
 		this.codhabitacion = codhabitacion;
+	}
+
+	public habitacionesobservaciones getHabitacionesobservaciones() {
+		return habitacionesobservaciones;
+	}
+
+	public void setHabitacionesobservaciones(habitacionesobservaciones habitacionesobservaciones) {
+		this.habitacionesobservaciones = habitacionesobservaciones;
 	}
 
 	public hoteles getCodHotel() {
@@ -88,12 +98,6 @@ public class habitaciones implements Serializable {
 		this.activa = activa;
 	}
 
-	public habitacionesobservaciones getHabitacionesobservaciones() {
-		return habitacionesobservaciones;
-	}
-
-	public void setHabitacionesobservaciones(habitacionesobservaciones habitacionesobservaciones) {
-		this.habitacionesobservaciones = habitacionesobservaciones;
-	}
+	
 	
 }

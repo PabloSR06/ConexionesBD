@@ -49,12 +49,12 @@ public class Main {
 		}
         
         
-        for (int i = 0; i < 2; i++) {
+        for (int i = 1; i < 3; i++) {
         	sesion.beginTransaction();
             habitacionesobservaciones ob1 = new habitacionesobservaciones();
-            habitaciones hab2 = sesion.get(habitaciones.class, i+1);
-            ob1.setCodHabitacionX(hab2);
-            ob1.setCodhabitacion(i+1);
+            habitaciones hab2 = sesion.get(habitaciones.class, i);
+            ob1.setCodhabitacionX(hab2);
+            //ob1.setCodhabitacion(i);
             ob1.setObservaciones("texto " + i);
             
             sesion.save(ob1);
@@ -89,12 +89,14 @@ public class Main {
             estancias est = new estancias();
             clientes cli1 = sesion.get(clientes.class, "00"+i+"A");
             habitaciones hab2 = sesion.get(habitaciones.class, i);
+            regimenes reg = sesion.get(regimenes.class, i);
             est.setCodestancia(i);
             est.setFechaFIN("2021-11-12");
             est.setFechaInicio("2021-11-12");
             est.setCodhabitacion(hab2);
             est.setOcupantes(10);
             est.setPagado(1);
+            est.setCodregimen(reg);
             est.setPrecioestancia(20);
             est.setCodDNIoNIE(cli1);
     
@@ -102,8 +104,7 @@ public class Main {
             sesion.getTransaction().commit();
 		}
         
-        Consultas.consulta_observacion(sesion, 1);
-        Consultas.consulta_1(sesion);
+        Consultas.consulta_3(sesion);
         sesion.close();
         
         
