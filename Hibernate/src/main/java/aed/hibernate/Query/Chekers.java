@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import aed.hibernate.Clases.*;
 
 public class Chekers {
+	
 
 	public static boolean hay_habitacion(Session sesion, int codhabitacion) {
 		try {
@@ -99,14 +100,46 @@ public class Chekers {
 			return false;
 		}
 	}
-	public static boolean hay_observacion(Session sesion, int codHabitacion) {
+	
+	public static boolean hay_estancias(Session sesion, int codhabitacion) {
 		try {
-			String sql = ("from habitacionesobservaciones obs WHERE obs.codhabitacion = :codhabitacion");
+			String sql = ("from estancias est WHERE est.codhabitacion = :codhabitacion");
 			Boolean salida = false;
 
 			Query q = sesion.createQuery(sql);
+			
+			habitaciones hab = new habitaciones();
+			hab = (habitaciones) sesion.get(habitaciones.class, codhabitacion);
+			
+			q.setParameter("codhabitacion", hab);
 
-			q.setParameter("codhabitacion", codHabitacion);
+			List<estancias> estancia = q.getResultList();
+
+			if (estancia.size() == 0) {
+				salida = false;
+			} else {
+				salida = true;
+			}
+			return salida;
+		} catch (Exception e) {
+			System.err.println("No se ha podido comprobar si hay estancias");
+			System.err.println(e.getMessage());
+			return false;
+		}
+	}
+	
+	public static boolean hay_observacion(Session sesion, int codHabitacion) {
+		try {
+			String sql = ("from habitacionesobservaciones obs WHERE codhabitacionX = :codhabitacion");
+			Boolean salida = false;
+
+			Query q = sesion.createQuery(sql);
+			
+			habitaciones hab = new habitaciones();
+			hab = (habitaciones) sesion.get(habitaciones.class, codHabitacion);
+			
+
+			q.setParameter("codhabitacion", hab	);
 
 			List<habitacionesobservaciones> observacion = q.getResultList();
 

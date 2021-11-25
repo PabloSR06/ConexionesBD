@@ -10,6 +10,7 @@ import aed.hibernate.Query.*;
 public class Menu {
 	public static void main(String[] args) {
 		Session sesion = HibernateUtil.getSessionFactory().openSession();
+		InitialInsert.inicio(sesion);
 		Menu_entrada(sesion);
 	}
 
@@ -82,21 +83,17 @@ public class Menu {
 
 		switch (entrada) {
 		case 1:
-			Consultas.consulta_todas_habitaciones(sesion);
-			Chekers.espera(8);
-			Menu.Menu_entrada(sesion);
+			Consultas.consulta_1(sesion);
+			Menu_entrada(sesion);
 			break;
 		case 2:
-			Menu_insertar();
-
+			Consultas.consulta_2(sesion);
+			Menu_entrada(sesion);
 			break;
+		
 		case 3:
-			Eliminar.eliminar_entrada(sesion);
-
-			break;
-		case 4:
 			System.out.println("Saliendo");
-			cerrar_session(sesion);
+			Menu_entrada(sesion);
 			break;
 
 		default:
@@ -105,6 +102,8 @@ public class Menu {
 		}
 
 	}
+	
+	
 
 	public static void Menu_insertar() {
 		Session sesion = HibernateUtil.getSessionFactory().openSession();

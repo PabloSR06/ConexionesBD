@@ -1,30 +1,16 @@
 package aed.hibernate.Main;
 
-
-
-import java.util.Iterator;
-
 import org.hibernate.*;
 
 import aed.hibernate.Clases.*;
-import aed.hibernate.Query.Consultas;
-import aed.hibernate.Query.Eliminar;
-import aed.hibernate.Query.Insertar;
+
 //PABLO SUAREZ ROMERO
 
-public class Main {
-    public static void main(String[] args) {
-        // Session sesion = HibernateUtil.getSessionFactory().getCurrentSession();
+public class InitialInsert {
+    public static void inicio(Session sesion) {
 
-        Session sesion = HibernateUtil.getSessionFactory().openSession();
         sesion.beginTransaction();
-        //Insertar.insertar_hoteles(sesion, "5", "hotel5");
-        //Insertar.insertar_habitaciones(sesion, "100", 1 ,1, 1, "5");
-        //Insertar.insertar_observaciones(sesion, 4, "prueba");
-        //Insertar.insertar_clientes(sesion, "0005A", "espa", "nombre5");
-        //Insertar.insertar_estancias(sesion, 5, "2021-11-11", "2021-11-12", 1, 1, 1, "0005A", 4, 1);
-//        Eliminar.eliminar_estancias(sesion, 4);
-        
+     
         hoteles h1 = new hoteles();
         h1.setCodHotel("1");
         h1.setNomHotel("hotel1");
@@ -104,11 +90,37 @@ public class Main {
             sesion.getTransaction().commit();
 		}
         
-        Consultas.consulta_3(sesion);
-        sesion.close();
+        sesion.beginTransaction();
+        estancias est = new estancias();
+        estancias est1 = new estancias();
+
+        clientes cli1 = sesion.get(clientes.class, "00"+1+"A");
+        habitaciones hab2 = sesion.get(habitaciones.class, 1);
+        regimenes reg = sesion.get(regimenes.class, 1);
+        est.setCodestancia(4);
+        est.setFechaFIN("2021-11-12");
+        est.setFechaInicio("2021-11-12");
+        est.setCodhabitacion(hab2);
+        est.setOcupantes(10);
+        est.setPagado(1);
+        est.setCodregimen(reg);
+        est.setPrecioestancia(20);
+        est.setCodDNIoNIE(cli1);
         
-        
-       
+        est1.setCodestancia(5);
+        est1.setFechaFIN("2021-11-12");
+        est1.setFechaInicio("2021-11-12");
+        est1.setCodhabitacion(hab2);
+        est1.setOcupantes(10);
+        est1.setPagado(1);
+        est1.setCodregimen(reg);
+        est1.setPrecioestancia(20);
+        est1.setCodDNIoNIE(cli1);
+
+        sesion.save(est);
+        sesion.save(est1);
+        sesion.getTransaction().commit();
+            
     }
 
     

@@ -87,6 +87,8 @@ public class Update {
 			}
 
 		}
+		
+		Menu.Menu_entrada(sesion);
 
 	}
 
