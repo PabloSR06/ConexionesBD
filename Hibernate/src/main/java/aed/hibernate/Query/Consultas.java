@@ -11,6 +11,8 @@ public class Consultas {
 
 	public static void consulta_1(Session sesion) {
 		try {
+			
+
 			String sql = ("from habitaciones");
 
 			Query q = sesion.createQuery(sql);
@@ -20,7 +22,10 @@ public class Consultas {
 			System.out.format("| %-13s | %-10s | %-13s | %-8s | %-9s | %-6s | %-20s |%n", "CodHabitacion", "CodHotel",
 					"NumHabitacion", "Capacidad", "PrecioDia", "Activa", "Observaciones");
 			for (habitaciones c : habitaciones) {
-				try {
+				
+				habitaciones hab = sesion.get(habitaciones.class, c.getCodhabitacion());
+				sesion.refresh(hab);
+				
 					if (c.getHabitacionesobservaciones() == null) {
 						System.out.format("| %-13s | %-10s | %-13s | %-9s | %-9s | %-6s | %-20s |%n",
 								c.getCodhabitacion(), c.getCodHotel().getCodHotel(), c.getNumHabitacion(),
@@ -32,12 +37,11 @@ public class Consultas {
 								c.getHabitacionesobservaciones().getObservaciones());
 					}
 					
-					Chekers.espera(3);
-
-				} catch (Exception e) {
-					System.err.println(e.getMessage());
-				}
+				
+				
 			}
+			
+			Chekers.espera(3);
 			
 		} catch (Exception e) {
 			System.err.println("No se ha podido hacer la consulta 1");

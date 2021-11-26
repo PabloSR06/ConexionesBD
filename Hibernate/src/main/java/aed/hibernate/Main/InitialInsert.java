@@ -38,7 +38,8 @@ public class InitialInsert {
         for (int i = 1; i < 3; i++) {
         	sesion.beginTransaction();
             habitacionesobservaciones ob1 = new habitacionesobservaciones();
-            habitaciones hab2 = sesion.get(habitaciones.class, i);
+            
+            habitaciones hab2= sesion.get(habitaciones.class, i);
             ob1.setCodhabitacionX(hab2);
             //ob1.setCodhabitacion(i);
             ob1.setObservaciones("texto " + i);
